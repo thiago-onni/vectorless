@@ -1,0 +1,7 @@
+# Material bruto e renders são grandes: ficam fora do git.
+*/raw/
+*/broll/
+*/out/
+*.mp4
+*.mov
+*.wav
