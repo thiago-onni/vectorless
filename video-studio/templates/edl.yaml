@@ -1,0 +1,50 @@
+# EDL — Edit Decision List
+# Gerada por /video-edit. Uma lista para o YouTube e uma por reel.
+# Tempos em segundos. "src" aponta para arquivos dentro da pasta do projeto.
+
+episodio: EP00
+setor: utilities
+fps: 30
+
+youtube:
+  resolution: [1920, 1080]
+  music: { src: brand/musica.mp3, bed_lufs: -20, timelapse_lufs: -14 }
+  progress_bar: { from_block: 2, to_block: 7 }
+  timeline:
+    - id: c01
+      cena: 1
+      bloco: 0
+      layout: L3
+      voice: { src: raw/aroll_01.mp4, in: 125.40, out: 129.10 }   # tomada escolhida após "de novo"
+      hyperframe:
+        type: HF-NUM
+        props: { valor: "11", unidade: "min", rotulo: "por atendimento hoje", fonte: "metricas.yaml#velocidade.antes" }
+      sfx: pop
+    - id: c02
+      cena: 1
+      layout: L1
+      voice: { src: raw/aroll_01.mp4, in: 129.10, out: 133.80 }
+      punch_in: { at: 131.2, scale: 1.1 }
+    - id: c05
+      cena: 9
+      bloco: 3
+      layout: L7
+      voice: { src: raw/aroll_01.mp4, in: 410.00, out: 418.50 }
+      visual: { src: screens/sistema-atual.png, zoom: [{ t: 0, rect: full }, { t: 2.5, rect: [880, 420, 640, 360], scale: 2.0 }] }
+    - id: c12
+      cena: 18
+      bloco: 5
+      layout: L6
+      voice: { src: raw/aroll_01.mp4, in: 702.30, out: 716.00 }
+      visual: { src: broll/builder_01.mp4, in: 1200, out: 4800, speed: 12, counter: "+1h de construção" }
+      blur: []                                                   # retângulos [x,y,w,h,t_in,t_out] para esconder dados
+
+instagram:
+  - id: R1
+    resolution: [1080, 1920]
+    layout_base: S1
+    hook_text: "11 minutos por ligação."
+    timeline:
+      - { layout: S4, hyperframe: { type: HF-NUM, props: { valor: "11", unidade: "min" } }, voice_ref: hookA }
+      - { layout: S1, top: { src: broll/app_fluxo-falta-energia.mp4, in: 12, out: 18 }, voice_ref: c05 }
+    captions: { words_per_chunk: 3, highlight: "--highlight" }

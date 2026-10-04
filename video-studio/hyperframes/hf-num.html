@@ -1,0 +1,42 @@
+<template>
+  <!-- HF-NUM · Número herói · 4 s · 1920x1080
+       Placeholders: {{ID}} {{VALOR}} (número com ponto decimal, ex: 1.5 → exibe "1,5") {{PREFIXO}} {{UNIDADE}} {{ROTULO}} {{FONTE}} {{SECTOR}} -->
+  <div id="root" data-composition-id="{{ID}}" data-width="1920" data-height="1080" data-duration="4">
+    <div class="clip {{ID}}-bg" data-start="0" data-duration="4" data-track-index="0"></div>
+    <div class="clip {{ID}}-stage" data-start="0" data-duration="4" data-track-index="1">
+      <div class="{{ID}}-num"><span class="{{ID}}-pre">{{PREFIXO}}</span><span id="{{ID}}-val">0</span><span class="{{ID}}-unit">{{UNIDADE}}</span></div>
+      <div class="{{ID}}-bar"></div>
+      <div class="{{ID}}-label">{{ROTULO}}</div>
+      <div class="{{ID}}-src">Fonte: {{FONTE}}</div>
+    </div>
+  </div>
+  <style>
+    @font-face { font-family: "Inter Tight"; font-weight: 800; src: url("assets/fonts/InterTight-ExtraBold.woff2") format("woff2"); }
+    @font-face { font-family: "Inter"; font-weight: 600; src: url("assets/fonts/Inter-SemiBold.woff2") format("woff2"); }
+    #root { width: 1920px; height: 1080px; position: relative; overflow: hidden; }
+    .{{ID}}-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 40%, #141A22 0%, #0B0F14 70%); }
+    .{{ID}}-stage { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding-left: 180px; }
+    .{{ID}}-num { font-family: "Inter Tight"; font-weight: 800; font-size: 260px; line-height: 1; color: #F4F6F8; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
+    .{{ID}}-pre, .{{ID}}-unit { font-size: 120px; color: {{SECTOR}}; margin: 0 16px; }
+    .{{ID}}-bar { width: 0; height: 10px; background: {{SECTOR}}; margin: 36px 0 28px; }
+    .{{ID}}-label { font-family: "Inter"; font-weight: 600; font-size: 56px; color: #F4F6F8; max-width: 1400px; }
+    .{{ID}}-src { position: absolute; left: 180px; bottom: 120px; font-family: "Inter"; font-weight: 600; font-size: 24px; color: #8A96A8; letter-spacing: 0.04em; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script>
+    (function () {
+      var id = "{{ID}}", raw = "{{VALOR}}";            // ex.: "11", "1.5", "487320" (decimal com ponto)
+      var target = Number(raw), dec = (raw.split(".")[1] || "").length;
+      var counter = { v: 0 }, el = document.getElementById(id + "-val");
+      var fmt = function (n) { return n.toLocaleString("pt-BR", { minimumFractionDigits: dec, maximumFractionDigits: dec }); };
+      var tl = gsap.timeline({ paused: true });
+      tl.fromTo("." + id + "-num", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" }, 0)
+        .fromTo(counter, { v: 0 }, { v: target, duration: 0.8, ease: "back.out(1.4)", onUpdate: function () { el.textContent = fmt(counter.v); } }, 0.05)
+        .fromTo("." + id + "-bar", { width: 0 }, { width: 420, duration: 0.45, ease: "power3.out" }, 0.6)
+        .fromTo("." + id + "-label", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0.8)
+        .fromTo("." + id + "-src", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.2);
+      window.__timelines = window.__timelines || {};
+      window.__timelines[id] = tl;
+    })();
+  </script>
+</template>

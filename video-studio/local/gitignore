@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+video-studio/projetos/*/raw/
+video-studio/projetos/*/broll/
+video-studio/projetos/*/out/
+*.mp4
+*.mov
+*.wav
